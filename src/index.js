@@ -13,17 +13,87 @@ const countryInfoCard = document.querySelector('.country-info');
 searchBox.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY))
  
 function onSearch(evt) {
-    console.log('INPUT')
-    const name = evt.target.value
-        // .trim().toLowerCase();
+    
+    const name = evt.target.value.trim().toLowerCase();
     console.log(name)
+
+    if (!name) {
+        alert('INPUT FALSE');
+        return;
+    }
+    
+    fetchCountries(name).then(data => {
+        if (data.length > 10) {
+            Notify.info("Too many matches found. Please enter a more specific name.");
+        } else if (data.length <= 10 & data.length > 1) {
+            createCountryList(data);
+        } else if (data.length = 1) {
+            createCountryCard(data);
+        }
+    }).catch(err => console.log(err))
+    if (!evt.target.textContent) {
+        clearList();
+        clearCard();
+            return
+        }
+}
+
+function createCountryList(arr) {
+    const markupList = arr.map(item =>
+        `<li class="list-county">
+      <img src="${item.flags.svg}" alt="flag ${item.name}" width="50" height="30" />
+      <h2 class="name-country">${item.name.official}</h2>
+      </li>`).join('');
+    
+    countryList.style.listStyle = 'none';
+
+    countryList.innerHTML = markupList;
+    
+}
+
+function createCountryCard(arr) {
+    const markupCard = arr.map(item => 
+      `<div class="card-county">
+      <p class="name-country">${item.name.official}</p>
+      <p class="info-country">Capital: ${item.capital}</p>
+      <p class="info-country">Population: ${item.population}</p>
+      <p class="info-country">Languages: ${Object.values(item.languages)}</p>
+      <img src="${item.flags.svg}" alt="flag ${item.name}" width="100" height="60"/>
+      </div>`).join('');
+
+    countryInfoCard.innerHTML = markupCard;
+
+}
+
+
+
+
+
+
+
+
+// .then(data => {
+//             if (data.length > 10) {
+//                 Notify.info("Too many matches found. Please enter a more specific name.");
+//             } else if (data.length <= 10 & data.length > 1) {
+//                 createCountryList(data);
+//             } else if (data.length = 1) {
+//                 createCountryCard(data);
+//             }
+//         }).catch(err => console.log(err))
+//     
+
+
+
+
+
     // const filteredItems = data.filter(t =>t..toLowerCase().includes(filter)
     // );
 
     // const listItemsMarkup = createCountryCard(filteredItems);
     // countryInfoCard.innerHTML = listItemsMarkup
    
-    fetchCountries(name)
+    
 //         .then(data => {
 //             if (data.length > 10) {
 //                 Notify.info("Too many matches found. Please enter a more specific name.");
@@ -39,7 +109,6 @@ function onSearch(evt) {
             // return
 //         }
 
-}
 
 
 
@@ -47,32 +116,9 @@ function onSearch(evt) {
 
 
 
-// function createCountryCard(arr) {
-//     const markupCard = arr.map(({ name, capital, population, languages, flags}) => 
-//       `<div class="card-county">
-//       <p class="name-country">${name.official}</p>
-//       <p class="info-country">Capital: ${capital}</p>
-//       <p class="info-country">Population: ${population}</p>
-//       <p class="info-country">Languages: ${Object.values(languages)}</p>
-//       <img src="${flags.svg}" alt="flag flag ${name}" />
-//       </div>`).join('');
 
-//     countryInfoCard.innerHTML = markupCard;
+// 
 
-// }
-
-
-function createCountryList(arr) {
-    const markupList = arr.map((item =>
-        `<li class="list-county">
-      <img src="${item.flags.svg}" alt="flag ${item.name}" width="50" height="30" />
-      <p class="name-country">${item.name.official}</p>
-      </li>`).join(''))
-    
-    countryList.style.listStyle = 'none';
-    countryList.innerHTML = markupList;
-    
-}
 
 
 

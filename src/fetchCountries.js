@@ -8,14 +8,14 @@ export default function fetchCountries(name) {
     
   return fetch(`${BASE_URL}${name}?fields=${fields}`)
        .then(response => {
-           console.log(response)
+        //    console.log(response)
            if (!response.ok) {
                Notify.failure("Oops, there is no country with that name")
                throw new Error(response.statusText)
            }
            return response.json()
            
-       }).then(data => console.log(data))
+       })
         .catch (err => console.error(err))
       
 }
