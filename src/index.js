@@ -39,7 +39,7 @@ function onSearch(evt) {
 
 function createCountryList(arr) {
     const markupList = arr.map(item =>
-        `<li class="list-county">
+        `<li class="list-country">
       <img src="${item.flags.svg}" alt="flag ${item.name}" width="50" height="30" />
       <h2 class="name-country">${item.name.official}</h2>
       </li>`).join('');
@@ -51,11 +51,14 @@ function createCountryList(arr) {
 function createCountryCard(arr) {
     const markupCard = arr.map(item => 
       `<div class="card-county">
+      <img src="${item.flags.svg}" alt="flag ${item.name}" width="100" height="60"/>
+
       <h2 class="name-country">${item.name.official}</h2>
+
       <p class="info-country"><b>Capital:</b> ${item.capital}</p>
       <p class="info-country"><b>Population:</b> ${item.population}</p>
       <p class="info-country"><b>Languages:</b> ${Object.values(item.languages)}</p>
-      <img src="${item.flags.svg}" alt="flag ${item.name}" width="100" height="60"/>
+      
       </div>`).join('');
 
     countryInfoCard.innerHTML = markupCard;
@@ -71,8 +74,12 @@ function errorNotify() {
 }
 
 // styles
-body.style.background = '#fafafa';
+body.style.background = 'url(https://phonoteka.org/uploads/posts/2021-04/thumbs/1618544206_16-phonoteka_org-p-fon-akvarel-nezhnii-16.jpg)';
+body.style.backgroundSize = 'cover';
 searchBox.style.borderRadius = '4px';
-searchBox.style.background = '#f9f072';
+searchBox.style.borderColor = '#ff7f50';
+searchBox.style.background = '#f9ddea';
 countryList.style.listStyle = 'none';
+countryList.style.color = '#261960';
+countryInfoCard.style.color = '#381048';
 
