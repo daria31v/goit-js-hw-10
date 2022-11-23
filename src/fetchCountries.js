@@ -7,20 +7,15 @@ const fields = 'name,capital,population,languages,flags'
 export default function fetchCountries(name) {
     
   return fetch(`${BASE_URL}${name}?fields=${fields}`)
-       .then(response => {
-        //    console.log(response)
-           if (!response.ok) {
-              
-               Notify.failure("Oops, there is no country with that name")
-               throw new Error()
-               
-           }
-           return response.json()
+    .then(response => {
+      if (!response.ok) {
+      throw new Error('404')
+    }
+      return response.json()
            
-       })
-        .catch(err => console.error(err))
-        .finally(() => {console.log("Final task");
-  });
+    })
+    .catch(err => console.error(err))
+    
+  };
       
      
-}

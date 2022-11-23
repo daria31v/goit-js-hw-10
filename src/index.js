@@ -14,26 +14,27 @@ const countryInfoCard = document.querySelector('.country-info');
 searchBox.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY))
  
 function onSearch(evt) {
-    console.dir(evt.target)
     const name = evt.target.value.trim();
-    console.log(name)
+    countryList.innerHTML = '';
+    countryInfoCard.innerHTML = '';
+
+    if (!name) {
+        return
+    }
 
     fetchCountries(name).then(data => {
         if (data.length > 10) {
-            Notify.info("Too many matches found. Please enter a more specific name.");
-        } else if (data.length <= 10 & data.length >= 2) {
+            return infoNotify();
+        }
+        if (data.length > 1 && data.length <= 10) {
             createCountryList(data);
             
-        } else if(data.length = 1) {
+        } else if (data.length = 1) {
             createCountryCard(data);
         }
     })
-        .catch(err => console.log(err))
+        .catch(err => errorNotify())
         
-    if (!searchBox.value) {
-    
-        return
-        }
 }
 
 function createCountryList(arr) {
@@ -42,9 +43,7 @@ function createCountryList(arr) {
       <img src="${item.flags.svg}" alt="flag ${item.name}" width="50" height="30" />
       <h2 class="name-country">${item.name.official}</h2>
       </li>`).join('');
-    
-    countryList.style.listStyle = 'none';
-
+     
     countryList.innerHTML = markupList;
     
 }
@@ -63,9 +62,17 @@ function createCountryCard(arr) {
 
 }
 
+function infoNotify() {
+    Notify.info("Too many matches found. Please enter a more specific name.");
+}
+
+function errorNotify() {
+    Notify.failure("Oops, there is no country with that name.");
+}
 
 // styles
 body.style.background = '#fafafa';
 searchBox.style.borderRadius = '4px';
 searchBox.style.background = '#f9f072';
+countryList.style.listStyle = 'none';
 
