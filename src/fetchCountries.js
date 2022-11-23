@@ -10,12 +10,17 @@ export default function fetchCountries(name) {
        .then(response => {
         //    console.log(response)
            if (!response.ok) {
+              
                Notify.failure("Oops, there is no country with that name")
-               throw new Error(response.statusText)
+               throw new Error()
+               
            }
            return response.json()
            
        })
-        .catch (err => console.error(err))
+        .catch(err => console.error(err))
+        .finally(() => {console.log("Final task");
+  });
       
+     
 }
